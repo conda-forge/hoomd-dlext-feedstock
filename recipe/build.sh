@@ -4,8 +4,15 @@ set -euxo pipefail
 
 rm -rf build || true
 
+export HOOMDv2=$( $PYTHON -c 'import hoomd; print(getattr(hoomd, "__version__", "").startswith("2."), end="")' )
+
 CMAKE_FLAGS="  -DCMAKE_INSTALL_PREFIX=${PREFIX}"
 CMAKE_FLAGS+=" -DCMAKE_BUILD_TYPE=Release"
+
+if [[ ${HOOMDv2} == "True" ]]; then
+    CMAKE_FLAGS+=" -DCMAKE_MODULE_PATH=cmake/Modules"
+fi
+
 # if CUDA_HOME is defined and not empty, we enable CUDA
 if [[ -n ${CUDA_HOME-} ]]; then
     CMAKE_FLAGS+=" -DCUDA_TOOLKIT_ROOT_DIR=${CUDA_HOME}"
