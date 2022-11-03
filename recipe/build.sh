@@ -6,6 +6,12 @@ rm -rf build || true
 
 CMAKE_FLAGS="  -DCMAKE_INSTALL_PREFIX=${PREFIX}"
 CMAKE_FLAGS+=" -DCMAKE_BUILD_TYPE=Release"
+
+HOOMDv2=$( $PYTHON -c 'import hoomd; print(getattr(hoomd, "__version__").startswith("2."), end="")' )
+if [[ ${HOOMDv2} == False ]]; then
+    CMAKE_FLAGS+=" -DCMAKE_MODULE_PATH=${PREFIX}/lib/cmake"
+fi
+
 # if CUDA_HOME is defined and not empty, we enable CUDA
 if [[ -n ${CUDA_HOME-} ]]; then
     CMAKE_FLAGS+=" -DCUDA_TOOLKIT_ROOT_DIR=${CUDA_HOME}"
