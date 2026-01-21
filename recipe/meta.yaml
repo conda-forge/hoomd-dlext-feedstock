@@ -13,11 +13,8 @@ source:
 
 build:
   number: 2
-  # Upstream package does not support Windows, Python < 3.6, or PyPy
-  skip: true  # [win or py<36 or python_impl == "pypy"]
   skip: true  # [hoomd == "v2" and cuda_compiler_version != "None" and py>39]
   skip: true  # [hoomd == "v2" and cuda_compiler_version == "None" and py>310]
-  skip: true  # [hoomd == "v3" and cuda_compiler_version not in ("11.2", "None")]
   string: {{ variant }}py{{ py }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   script_env:
     - CUDA_MAJOR={{ cuda_major }}
