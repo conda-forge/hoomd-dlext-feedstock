@@ -12,12 +12,9 @@ source:
   sha256: 3521af38138b2ecf637a5888d81c0af2960fce2da96bb8982d0d023da23ba319
 
 build:
-  number: 1
-  # Upstream package does not support Windows, Python < 3.6, or PyPy
-  skip: true  # [win or py<36 or python_impl == "pypy"]
+  number: 2
   skip: true  # [hoomd == "v2" and cuda_compiler_version != "None" and py>39]
   skip: true  # [hoomd == "v2" and cuda_compiler_version == "None" and py>310]
-  skip: true  # [hoomd == "v3" and cuda_compiler_version not in ("11.2", "None")]
   string: {{ variant }}py{{ py }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   script_env:
     - CUDA_MAJOR={{ cuda_major }}
@@ -29,6 +26,7 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cuda') }}  # [linux64 and cuda_compiler_version != "None"]
     - cmake >=3.16,!=3.23.0
     - make
@@ -87,5 +85,5 @@ about:
 
 extra:
   recipe-maintainers:
-    - pabloferz
+    - p-zubieta
     - nrouizem
