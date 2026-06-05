@@ -9,7 +9,6 @@ CMAKE_FLAGS+=" -DCMAKE_BUILD_TYPE=Release"
 
 if [[ "$HOOMD_TAG" == v2 ]]; then
     CMAKE_FLAGS+=" -DCMAKE_POLICY_VERSION_MINIMUM=3.5"
-    export CXXFLAGS="${CXXFLAGS} -include cstdint"
 fi
 
 if [ -z "${PYTHON+x}" ]; then
@@ -40,9 +39,6 @@ if [[ "$target_platform" == osx* ]]; then
     # work around 'operator delete is unavailable' on macOS
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
-    if [[ "$HOOMD_TAG" == v2 ]]; then
-        export CXXFLAGS="${CXXFLAGS} -Wno-missing-template-arg-list-after-template-kw"
-    fi
 fi
 
 # Build and install
